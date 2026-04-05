@@ -1,3 +1,5 @@
+[![Deploy Databricks GLM Pipeline](https://github.com/kleinnconrad/levenshtein-distance-for-mdm/actions/workflows/deploy_bundle.yml/badge.svg)](https://github.com/kleinnconrad/Levenshtein-distance-for-mdm/actions/workflows/deploy_bundle.yml)
+
 # Address Matching & Deduplication Pipeline
 
 ## Table of Contents
