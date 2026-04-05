@@ -33,6 +33,6 @@ jobs:
 
       - name: Deploy Databricks Bundle
         # Deploys to the target specified in your databricks.yml (assuming 'prod' or default)
-        run: databricks bundle deploy -t prod 
+        run: databricks bundle deploy -t default 
         env:
           DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
