@@ -1,0 +1,8 @@
+resources:
+  jobs:
+    address_matching_pipeline:
+      name: "Address Matching Pipeline"
+      tasks:
+        - task_key: deduplication_task
+          notebook_task:
+            notebook_path: ../src/levenshtein.py

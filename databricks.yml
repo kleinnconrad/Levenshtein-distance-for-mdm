@@ -1,0 +1,9 @@
+bundle:
+  name: address-matching-bundle
+
+workspace:
+  host: https://dbc-91e4a242-418c.cloud.databricks.com
+
+# Lade alle YAML-Dateien aus dem resources-Ordner
+include:
+  - resources/*.yml
