@@ -1,7 +1,7 @@
 resources:
   jobs:
     address_matching_pipeline:
-      name: "Address Matching Pipeline"
+      name: "Address Matching Pipelines"
       tasks:
         - task_key: deduplication_task
           notebook_task:
