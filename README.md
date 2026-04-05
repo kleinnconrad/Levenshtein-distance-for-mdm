@@ -65,8 +65,8 @@ To maintain synchronization between the repository code and the live Databricks 
 
 ### Pipeline Testing and Quality Assurance
 
-### Code Linting
+* **Code Linting**
 Static analysis scans the Python scripts to instantly catch syntax errors, identify undefined variables, and enforce clean, maintainable code standards.
 
-### Unit Testing
+* **Unit Testing**
 Automated tests validate the core data manipulation logic. They verify that the text-cleaning functions properly handle edge cases, strip out noise words, and manage null values efficiently on the GitHub runner, without consuming Databricks compute resources.
