@@ -1,0 +1,38 @@
+name: Deploy Databricks Asset Bundle
+
+on:
+  push:
+    branches:
+      - main  # Adjust this if your primary branch is named differently (e.g., 'master')
+    paths:
+      - 'src/levenshtein.py'
+      - 'resources/**/*.yml'
+      - 'databricks.yml'
+
+# Setting the host explicitly as requested
+env:
+  DATABRICKS_HOST: "https://dbc-91e4a242-418c.cloud.databricks.com"
+
+jobs:
+  validate_and_deploy:
+    name: Validate and Deploy Bundle
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Databricks CLI
+        uses: databricks/setup-cli@main
+
+      - name: Validate Databricks Bundle
+        run: databricks bundle validate
+        env:
+          # Pulls the authentication token from GitHub Secrets
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+
+      - name: Deploy Databricks Bundle
+        # Deploys to the target specified in your databricks.yml (assuming 'prod' or default)
+        run: databricks bundle deploy -t prod 
+        env:
+          DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
