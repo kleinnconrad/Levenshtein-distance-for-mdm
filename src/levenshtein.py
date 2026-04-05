@@ -1,4 +1,5 @@
 # Databricks notebook source
+# MAGIC %pip install Levenshtein
 
 import pandas as pd
 import re
