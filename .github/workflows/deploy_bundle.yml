@@ -25,7 +25,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Recommended to match your Databricks Runtime
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
@@ -40,12 +40,15 @@ jobs:
           flake8 src/ tests/ --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
       - name: Run unit tests with pytest
+        env:
+          # This forces Python to recognize the root repository folder
+          PYTHONPATH: .
         run: |
-          pytest -m pytest tests/
+          python -m pytest tests/
 
   validate_and_deploy:
     name: Validate and Deploy Bundle
-    needs: test_and_lint # This ensures deployment ONLY happens if tests pass
+    needs: test_and_lint # Ensures deployment ONLY happens if tests pass
     runs-on: ubuntu-latest
 
     steps:
