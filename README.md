@@ -62,3 +62,11 @@ To maintain synchronization between the repository code and the live Databricks 
 * **Trigger:** The workflow automatically initiates on a push to the `main` branch, but *only* if relevant files are modified (e.g., `src/levenshtein.py`, the `resources/` YAML files, or `databricks.yml`).
 * **Validation:** It first runs `databricks bundle validate` to ensure all syntax and configurations are correct before interacting with the live environment.
 * **Deployment:** Upon successful validation, it executes `databricks bundle deploy`. This command securely connects to the target workspace (authenticated via a GitHub Secret containing a Databricks Personal Access Token) and updates the Databricks Jobs and underlying source code automatically.
+
+### Pipeline Testing and Quality Assurance
+
+### Code Linting
+Static analysis scans the Python scripts to instantly catch syntax errors, identify undefined variables, and enforce clean, maintainable code standards.
+
+### Unit Testing
+Automated tests validate the core data manipulation logic. They verify that the text-cleaning functions properly handle edge cases, strip out noise words, and manage null values efficiently on the GitHub runner, without consuming Databricks compute resources.
