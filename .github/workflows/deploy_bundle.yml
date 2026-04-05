@@ -41,7 +41,7 @@ jobs:
 
       - name: Run unit tests with pytest
         run: |
-          pytest tests/
+          pytest -m pytest tests/
 
   validate_and_deploy:
     name: Validate and Deploy Bundle
