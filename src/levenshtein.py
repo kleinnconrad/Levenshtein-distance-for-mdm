@@ -75,3 +75,12 @@ final_output = duplicates_df[[
 print(f"Total duplicate pairs found: {len(final_output)}")
 print("\nSample Duplicate Pairs:")
 print(final_output.head(20))
+
+# 9. Save to Databricks Delta Table
+try:
+    # The 'spark' session is automatically available in a Databricks notebook environment
+    spark_df = spark.createDataFrame(final_output)
+    spark_df.write.mode("overwrite").saveAsTable("workspace.default.address_duplicates")
+    print("\nSuccessfully saved results to Delta table: workspace.default.address_duplicates")
+except NameError:
+    print("\nLocal execution detected ('spark' session not found). Results were not saved to a Delta table.")
