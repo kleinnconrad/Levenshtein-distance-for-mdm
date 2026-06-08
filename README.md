@@ -4,6 +4,7 @@
 
 ## Table of Contents
 * [`levenshtein.py` Overview](#-levenshteinpy-overview)
+* [Test Data Generation](#test-data-generation)
 * [Understanding Levenshtein Distance](#-understanding-levenshtein-distance)
   * [How It Works](#how-it-works)
   * [What It Is Good For](#what-it-is-good-for)
@@ -16,12 +17,33 @@
 
 The core logic of the deduplication process is handled by the `levenshtein.py` script. It operates using the `pandas` and `Levenshtein` libraries through the following sequential steps:
 
-1. **Data Loading:** Ingests the source data containing system IDs, record IDs, company names, street names, and zip codes.
+1. **Data Loading:** Ingests the source data from a generated CSV dataset (`data/test_addresses.csv`) containing system IDs, record IDs, company names, street names, and zip codes. It supports both local execution and Databricks workspaces dynamically.
 2. **Data Standardization:** Applies regular expressions to clean the text fields. It standardizes the data by converting strings to lowercase, stripping out common legal entity suffixes (e.g., GmbH, KG, AG), removing common street suffixes (e.g., strasse, weg), and eliminating whitespace and special characters. 
 3. **Blocking (Self-Join):** Merges the dataset against itself based strictly on the `zip_code`. This "blocking" strategy prevents an expensive computational cross-join (comparing every record to every other record) by only comparing records within the same geographic area. Self-matches are then filtered out.
 4. **Similarity Scoring:** Calculates the Levenshtein edit distance for both the cleaned company names and street names, translating the result into a percentage similarity score (0 to 100).
 5. **Threshold Filtering:** Filters the paired records, keeping only those where both the company name and street name have a similarity score of 90% or higher.
 6. **Output Generation:** Formats the final list of duplicate pairs, returning the original source IDs and their matched counterparts.
+
+---
+
+## Test Data Generation
+
+To properly test the heuristic string matching algorithm, a synthetic test dataset generator is provided.
+
+* **Script:** `data_generation/generate_test_data.py`
+* **Output:** Generates exactly 500 rows of address records and saves them to `data/test_addresses.csv`.
+* **Details:** The generator creates a mix of clean records and records with slight typographical noise (such as character insertions, deletions, substitutions, and variations in legal entity suffixes) to realistically simulate the types of inconsistencies the Levenshtein distance is designed to catch.
+
+**Running the pipeline locally:**
+
+1. First, generate the synthetic test dataset:
+   ```bash
+   python data_generation/generate_test_data.py
+   ```
+2. Next, execute the deduplication pipeline:
+   ```bash
+   python src/levenshtein.py
+   ```
 
 ---
 

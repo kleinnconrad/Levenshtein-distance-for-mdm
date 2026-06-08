@@ -3,6 +3,11 @@ resources:
     address_matching_pipeline:
       name: "Address Matching Pipeline"
       tasks:
+        - task_key: data_generation_task
+          notebook_task:
+            notebook_path: ../data_generation/generate_test_data.py
         - task_key: deduplication_task
+          depends_on:
+            - task_key: data_generation_task
           notebook_task:
             notebook_path: ../src/levenshtein.py

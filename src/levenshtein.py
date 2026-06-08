@@ -5,15 +5,22 @@ import pandas as pd
 import re
 import Levenshtein
 
-# 1. Load your dummy data (using the exact fields defined here)
-data = {
-    'system_id': ['S1', 'S2', 'S3'],
-    'record_id': ['R1', 'R2', 'R3'],
-    'company_name': ['TechCorp GmbH', 'TechCorp', 'Other Co KG'],
-    'street_name': ['Mainstrasse 12', 'Main str. 12', 'Side weg 5'],
-    'zip_code': ['12345', '12345', '54321']
-}
-df_records = pd.DataFrame(data)
+import os
+
+# 1. Load data
+# Try to resolve path relative to script directory (for local execution)
+try:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(script_dir, '..', 'data', 'test_addresses.csv')
+    df_records = pd.read_csv(data_path)
+except NameError:
+    # If __file__ is not defined (e.g., inside a Databricks Notebook environment)
+    # Databricks allows relative paths from the notebook's location.
+    data_path = '../data/test_addresses.csv'
+    df_records = pd.read_csv(data_path)
+
+# Ensure zip_code is treated as string for blocking
+df_records['zip_code'] = df_records['zip_code'].astype(str)
 
 # 2. Define data cleaning functions
 def clean_company_name(name):
@@ -65,4 +72,6 @@ final_output = duplicates_df[[
     'system_id_y'
 ]].drop_duplicates()
 
-print(final_output)
+print(f"Total duplicate pairs found: {len(final_output)}")
+print("\nSample Duplicate Pairs:")
+print(final_output.head(20))
