@@ -24,6 +24,17 @@ df_records['zip_code'] = df_records['zip_code'].astype(str)
 
 # 2. Define data cleaning functions
 def clean_company_name(name):
+    """
+    Cleans and standardizes a company name.
+
+    Removes common legal entity suffixes, punctuation, and converts to lowercase.
+
+    Args:
+        name (str): The original company name.
+
+    Returns:
+        str: The standardized company name.
+    """
     if pd.isna(name):
         return ""
     name = str(name).lower()
@@ -32,6 +43,17 @@ def clean_company_name(name):
     return name
 
 def clean_street_name(street):
+    """
+    Cleans and standardizes a street name.
+
+    Removes common street suffixes, numbers, punctuation, and converts to lowercase.
+
+    Args:
+        street (str): The original street name.
+
+    Returns:
+        str: The standardized street name.
+    """
     if pd.isna(street):
         return ""
     street = str(street).lower()
@@ -51,6 +73,15 @@ merged_df = merged_df[merged_df['record_id_x'] != merged_df['record_id_y']]
 
 # 6. Calculate Edit Distance Similarity
 def calculate_similarity(row):
+    """
+    Calculates the Levenshtein similarity score for company and street names.
+
+    Args:
+        row (pd.Series): A row from the merged DataFrame containing _x and _y suffixes.
+
+    Returns:
+        pd.Series: A series containing the name and street similarity scores as percentages.
+    """
     name_sim = Levenshtein.ratio(row['clean_name_x'], row['clean_name_y']) * 100
     street_sim = Levenshtein.ratio(row['clean_street_x'], row['clean_street_y']) * 100
     return pd.Series({'name_sim': name_sim, 'street_sim': street_sim})
