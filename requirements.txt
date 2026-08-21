@@ -4,7 +4,7 @@
 #
 #    pip-compile --output-file=requirements.txt requirements.in
 #
-levenshtein==0.27.3
+levenshtein==0.27.4
     # via -r requirements.in
 numpy==2.5.1
     # via pandas
